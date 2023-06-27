@@ -58,17 +58,21 @@ class Personaje:
 
     def verificar_colision_plataforma(self, plataformas, comienzo):
         retorno = False
+        
         for plataforma in plataformas:
             if self.lados["bottom"].colliderect(plataforma.lados["top"]):
+                print(plataforma.imagen)
                 self.esta_saltando = False
                 self.desplazamiento_y = 0
                 self.lados['main'].bottom = plataforma.lados['main'].top + 5
                 retorno = True
                 break
             elif self.lados["top"].colliderect(plataforma.lados["bottom"]):
+                print(plataforma.imagen)
                 self.lados['main'].top = plataforma.lados['main'].bottom - 2
                 self.desplazamiento_y = self.gravedad
             elif self.lados["right"].colliderect(plataforma.lados["left"]):
+                print(plataforma.imagen)
                 self.colision_derecha = True
                 self.colision_izquierda = False
             elif self.lados["left"].colliderect(plataforma.lados["right"]):

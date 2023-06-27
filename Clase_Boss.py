@@ -22,7 +22,7 @@ class Voldemort(Personaje):
         print(self.bandera)
         if self.bandera == True:
             self.animar_imagen(pantalla, self.rectangulo, animacion)
-            self.hechizo = Hechizo(self.lados['right'].x - 100, self.lados['right'].y + 25, hechizo_voldemort[0],"Recursos/voldemort/avadakadavra.OGG",15, self.lista_hechizos_voldemort)
+            self.hechizo = Hechizo(self.lados['right'].x - 100, self.lados['right'].y + 25, hechizo_voldemort[0],"Recursos/sonidos/avadakadavra.OGG",15, self.lista_hechizos_voldemort)
             self.lista_hechizos_voldemort.append(self.hechizo)
             #self.hechizo.mover_proyectil_enemigo(personaje, self, pantalla)
             try:

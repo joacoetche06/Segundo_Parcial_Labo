@@ -28,7 +28,6 @@ class Hechizo(Personaje):
 
     def verificar_colision_proyectil(self, plataformas,W, atacando, enemigos, harry, pantalla):
         for enemigo in enemigos:
-            print(self.rectangulo)
             if self.rectangulo.colliderect(enemigo.rectangulo):
                 enemigo.desaparecer_enemigo(pantalla, enemigo)
                 atacando = False
