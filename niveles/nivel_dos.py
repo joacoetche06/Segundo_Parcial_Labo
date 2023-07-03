@@ -8,11 +8,13 @@ from Clase_Personaje import Personaje
 from Clase_Plataforma import Plataformas
 from Clase_Enemigo import Enemigo
 from Clase_Secundario import Secundario
+from Clase_Trampas import Trampa
+
 
 
 from GUI_form_principal import *
 
-from niveles.nivel import Nivel
+from niveles.nivel import *
 
 class NivelDos(Nivel):
     def __init__(self, pantalla: pygame.surface):
@@ -41,7 +43,7 @@ class NivelDos(Nivel):
 
         reescalar_imagen(lista_animaciones, 42, 88)
 
-        harry = Personaje(personaje_camina[0], x_inicial, y_inicial, "Recursos/sonidos/ascendio_2.mp3", velocidad)
+        harry = Personaje(personaje_camina[0], x_inicial, y_inicial, "Recursos/sonidos/Ascendio1.wav", velocidad)
 
         #SUPERFICIE
         plataforma_uno = Plataformas("Recursos/items/MergedImages.png", (150,32), 350, 350)
@@ -68,6 +70,17 @@ class NivelDos(Nivel):
         #LISTA PLATAFORMAS
         lista_plataformas = [piso_principal, piso_uno, piso_dos, piso_tres, plataforma_uno, plataforma_dos, plataforma_tres]
 
+
+        #TRAMPA
+        lista_pinchos = []
+        pincho_uno = Trampa("Recursos/items/spike.png", (48,21), 400, piso_principal.rectangulo.top - 21)
+        pincho_dos = Trampa("Recursos/items/spike.png", (48,21), pincho_uno.rectangulo.x + 48, piso_principal.rectangulo.top - 21)
+        pincho_tres = Trampa("Recursos/items/spike.png", (48,21), pincho_dos.rectangulo.x + 48, piso_principal.rectangulo.top - 21)
+
+        lista_pinchos.append(pincho_uno)
+        lista_pinchos.append(pincho_dos)
+        lista_pinchos.append(pincho_tres)
+
         #SNITCH
         x_inicial_snitch = W - 100
         y_inicial_snitch = piso_tres.rectangulo.y - 30
@@ -82,7 +95,7 @@ class NivelDos(Nivel):
         reescalar_imagen(lista_imagenes_hechizo, 30, 30)
 
         #ARAÑA        
-        velocidad_araña = 15
+        velocidad_araña = 10
 
         lista_animaciones_araña = [araña_derecha, araña_izquierda, araña_herida]
 
@@ -112,4 +125,4 @@ class NivelDos(Nivel):
         pared_tres = Plataformas("Recursos/terreno/tree.png", (45,94), piso_tres.rectangulo.x - 10, piso_tres.rectangulo.y - 94)
         lista_plataformas.append(pared_tres)
 
-        super().__init__(pantalla, harry, lista_plataformas, fondo, snitch, lista_enemigos, 60, None)
+        super().__init__(pantalla, harry, lista_plataformas, fondo, snitch, lista_enemigos, 60, lista_pinchos, "dos")

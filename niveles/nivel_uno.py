@@ -8,11 +8,12 @@ from Clase_Personaje import Personaje
 from Clase_Plataforma import Plataformas
 from Clase_Enemigo import Enemigo
 from Clase_Secundario import Secundario
+from Clase_Trampas import Trampa
 
 
 from GUI_form_principal import *
 
-from niveles.nivel import Nivel
+from niveles.nivel import *
 
 class NivelUno(Nivel):
     def __init__(self, pantalla: pygame.surface):
@@ -33,6 +34,9 @@ class NivelUno(Nivel):
         x_inicial = H/2 - 200
         y_inicial = W/2 - 160
         velocidad = 20
+        
+        pygame.mixer.init()
+        
 
 
         lista_animaciones = [personaje_quieto, personaje_camina, personaje_camina_izquierda, personaje_salta,
@@ -41,7 +45,7 @@ class NivelUno(Nivel):
 
         reescalar_imagen(lista_animaciones, 42, 88)
 
-        harry = Personaje(personaje_camina[0], x_inicial, y_inicial, "Recursos/sonidos/ascendio_2.mp3", velocidad)
+        harry = Personaje(personaje_camina[0], x_inicial, y_inicial, "Recursos/sonidos/Ascendio1.wav", velocidad)
 
         #SUPERFICIE
 
@@ -68,6 +72,16 @@ class NivelUno(Nivel):
         #LISTA PLATAFORMAS
         lista_plataformas = [piso_principal, piso_uno, piso_dos, piso_tres, plataforma_uno, plataforma_dos, plataforma_tres]
 
+        #TRAMPA
+        lista_pinchos = []
+        pincho_uno = Trampa("Recursos/items/spike.png", (48,21), 150, piso_dos.rectangulo.top - 21)
+        pincho_dos = Trampa("Recursos/items/spike.png", (48,21), pincho_uno.rectangulo.x + 48, piso_dos.rectangulo.top - 21)
+        pincho_tres = Trampa("Recursos/items/spike.png", (48,21), pincho_dos.rectangulo.x + 48, piso_dos.rectangulo.top - 21)
+
+        lista_pinchos.append(pincho_uno)
+        lista_pinchos.append(pincho_dos)
+        lista_pinchos.append(pincho_tres)
+
         #FENIX
         x_inicial_fenix = 100
         y_inicial_fenix = 20
@@ -87,7 +101,7 @@ class NivelUno(Nivel):
         reescalar_imagen(lista_imagenes_hechizo, 30, 30)
 
         #DUENDE
-        velocidad_duende = 15
+        velocidad_duende = 10
 
         lista_animaciones_duende = [duende_quieto, duende_volando, duende_volando_izquierda, duende_atacando, duende_herido]
 
@@ -119,6 +133,6 @@ class NivelUno(Nivel):
         pared_tres = Plataformas("Recursos/terreno/1.png", (28,92), piso_tres.rectangulo.x - 28, piso_tres.rectangulo.y - 42)
         lista_plataformas.append(pared_tres)
 
-        super().__init__(pantalla, harry, lista_plataformas, fondo, fenix, lista_enemigos, 60)
+        super().__init__(pantalla, harry, lista_plataformas, fondo, fenix, lista_enemigos, 60, lista_pinchos, "Uno")
 
     

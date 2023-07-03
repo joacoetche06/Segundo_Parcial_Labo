@@ -1,5 +1,6 @@
 import pygame
 from movimiento import obtener_rectangulos
+
 class Plataformas:
 
     def __init__(self, imagen, tamaño: tuple, x, y):

@@ -32,8 +32,7 @@ class PictureBox(Widget):
         
         self.render()
         
-     
- 
+
     def render(self):
         self.slave_rect = self._slave.get_rect()
 

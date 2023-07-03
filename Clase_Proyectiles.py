@@ -59,9 +59,11 @@ class Hechizo(Personaje):
     def verificar_colision_hechizo_voldemort(self, personaje, enemigo):
         if self.rectangulo.x < self.rectangulo.width:
             self.desaparecer_proyectil(self.lista)
+            enemigo.bandera_sonido = True
         elif self.rectangulo.colliderect(personaje.rectangulo):
             self.desaparecer_proyectil(self.lista)
             personaje.vida -= 1
+            enemigo.bandera_sonido = True
     def desaparecer_proyectil(self, hechizo):
         self.lista.pop(0)
 

@@ -19,7 +19,7 @@ class Voldemort(Personaje):
             self.contador_pasos += 1    
 
     def atacar(self, pantalla, animacion, personaje):
-        print(self.bandera)
+        print(self.bandera_sonido)
         if self.bandera == True:
             self.animar_imagen(pantalla, self.rectangulo, animacion)
             self.hechizo = Hechizo(self.lados['right'].x - 100, self.lados['right'].y + 25, hechizo_voldemort[0],"Recursos/sonidos/avadakadavra.OGG",15, self.lista_hechizos_voldemort)
@@ -34,8 +34,6 @@ class Voldemort(Personaje):
                 print("Error voldy")
         else:
             self.animar_imagen(pantalla, self.rectangulo, voldemort_quieto)
-            self.bandera_sonido = False
-
     def verificar_colision_hechizo_harry(self, lista_hechizos):
         for hechizo in lista_hechizos:
             if self.rectangulo.colliderect(hechizo.rectangulo):

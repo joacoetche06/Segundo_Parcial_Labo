@@ -9,11 +9,13 @@ from Clase_Plataforma import Plataformas
 from Clase_Enemigo import Enemigo
 from Clase_Secundario import Secundario
 from Clase_Boss import Voldemort
+from Clase_Trampas import Trampa
+
 
 
 from GUI_form_principal import *
 
-from niveles.nivel import Nivel
+from niveles.nivel import *
 
 class NivelTres(Nivel):
     def __init__(self, pantalla: pygame.surface):
@@ -41,7 +43,7 @@ class NivelTres(Nivel):
 
         reescalar_imagen(lista_animaciones, 42, 88)
 
-        harry = Personaje(personaje_camina[0], x_inicial, y_inicial, "Recursos/sonidos/ascendio_2.mp3", velocidad)
+        harry = Personaje(personaje_camina[0], x_inicial, y_inicial, "Recursos/sonidos/Ascendio1.wav", velocidad)
 
         #SUPERFICIE
         plataforma_uno = Plataformas("Recursos/items/plataforma_3.png", (90,32), 350, 375)
@@ -67,6 +69,16 @@ class NivelTres(Nivel):
         #LISTA PLATAFORMAS
         lista_plataformas = [piso_principal, piso_uno, piso_dos, piso_tres, plataforma_uno, plataforma_dos]#, plataforma_tres]
 
+        #TRAMPA
+        lista_pinchos = []
+        pincho_uno = Trampa("Recursos/items/spike.png", (48,21), 600, piso_tres.rectangulo.top - 21)
+        pincho_dos = Trampa("Recursos/items/spike.png", (48,21), pincho_uno.rectangulo.x + 48, piso_tres.rectangulo.top - 21)
+        pincho_tres = Trampa("Recursos/items/spike.png", (48,21), pincho_dos.rectangulo.x + 48, piso_tres.rectangulo.top - 21)
+
+        lista_pinchos.append(pincho_uno)
+        lista_pinchos.append(pincho_dos)
+        lista_pinchos.append(pincho_tres)
+
         #PIEDRA
         x_inicial_piedra = piso_tres.rectangulo.x
         y_inicial_piedra = piso_tres.rectangulo.y - 30
@@ -85,7 +97,7 @@ class NivelTres(Nivel):
         #SERPIENTES
 
 
-        velocidad_araña = 15
+        velocidad_araña = 10
 
         lista_animaciones_araña = [serpiente_derecha, serpiente_izquierda, serpiente_herida]
 
@@ -117,4 +129,4 @@ class NivelTres(Nivel):
 
         voldemort = Voldemort(W - 100, piso_tres.rectangulo.y - 110, voldemort_quieto[0], "Recursos/sonidos/avadakadavra.OGG", 15)
 
-        super().__init__(pantalla, harry, lista_plataformas, fondo, piedra_resurrecion, lista_enemigos, 60, voldemort)
+        super().__init__(pantalla, harry, lista_plataformas, fondo, piedra_resurrecion, lista_enemigos, 60, lista_pinchos, "tres",voldemort)

@@ -61,23 +61,26 @@ class Personaje:
         
         for plataforma in plataformas:
             if self.lados["bottom"].colliderect(plataforma.lados["top"]):
-                print(plataforma.imagen)
                 self.esta_saltando = False
                 self.desplazamiento_y = 0
                 self.lados['main'].bottom = plataforma.lados['main'].top + 5
                 retorno = True
                 break
-            elif self.lados["top"].colliderect(plataforma.lados["bottom"]):
-                print(plataforma.imagen)
-                self.lados['main'].top = plataforma.lados['main'].bottom - 2
+            elif self.lados["top"].colliderect(plataforma.lados["bottom"]) :
+                self.lados['main'].top = plataforma.lados['main'].bottom
                 self.desplazamiento_y = self.gravedad
+                break
             elif self.lados["right"].colliderect(plataforma.lados["left"]):
-                print(plataforma.imagen)
                 self.colision_derecha = True
                 self.colision_izquierda = False
+                break
             elif self.lados["left"].colliderect(plataforma.lados["right"]):
                 self.colision_derecha = False
                 self.colision_izquierda = True
+                break
+                
+            elif self.rectangulo.top < 1:
+                self.desplazamiento_y = self.gravedad
             elif comienzo or self.rectangulo.y < 455:  # Verificar si comienzo es True
                 self.esta_saltando = True
             else:
@@ -90,7 +93,7 @@ class Personaje:
         for enemigo in lista_enemigos:
             if self.rectangulo.colliderect(enemigo.rectangulo):
                 self.vida -= 1
-                enemigo.desaparecer_enemigo(pantalla, enemigo)
+                enemigo.bandera = not enemigo.bandera
 
     def mover_personaje(self, pantalla, lista_plataformas):
         match self.que_hace:

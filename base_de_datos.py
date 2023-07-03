@@ -1,7 +1,7 @@
 import sqlite3
-from datos_jugadores import *
+# from datos_jugadores import *
 bandera_tabla = False
-def crear_base_de_datos(nombre, puntuacion):
+def agregar_a_base_de_datos(nombre, puntuacion):
     global bandera_tabla
     with sqlite3.connect("mi_base_de_datos.db") as conexion:
         try:

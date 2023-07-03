@@ -2,10 +2,12 @@ import pygame, time, sys, pygame.font
 from pygame.locals import *
 
 from Clase_Proyectiles import Hechizo
+from Clase_Contexto import *
+
 from modo import *
 from funciones import dibujar_cuadrados
-from configuraciones import piso_nivel_uno
-from API_FORMS.GUI_form_menu_levels import *
+
+ESTADO_JUEGO = pygame.USEREVENT + 1
 
 #################no estoy seguro si va aca
 from configuraciones import personaje_salta, fenix_volando, fenix_volando_izquierda, duende_volando, duende_volando_izquierda, barra_vida, hechizo_harry, voldemort_izquierda, cabeza_vida_voldemort, voldemort_caido
@@ -34,7 +36,7 @@ temporizador_tick = 1000  # Actualización cada segundo (en milisegundos)
 
 #10 minutos del video
 class Nivel:
-    def __init__(self, pantalla, personaje, lista_plataformas, fondo, fruta, lista_enemigos, tiempo_total, voldemort = None):
+    def __init__(self, pantalla, personaje, lista_plataformas, fondo, fruta, lista_enemigos, tiempo_total, lista_trampas,numero_nivel,voldemort = None):
         self._slave = pantalla
         self.jugador = personaje
         self.plataformas = lista_plataformas
@@ -49,6 +51,32 @@ class Nivel:
         self.voldemort = voldemort
         self.lista_hechizos_voldemort = []
         self.bandera_muerte = False
+        self.lista_trampas = lista_trampas
+        self.puntaje = 0
+        self.nivel = numero_nivel
+        self.estado = "En curso"
+
+
+        
+        
+        import soundfile as sf
+
+        # # Ruta al archivo de sonido
+        # ruta_archivo = "Recursos/sonidos/nivel_1.wav"
+
+        # # Leer la información del archivo de sonido
+        # data, samplerate = sf.read(ruta_archivo)
+
+        # # Obtener la frecuencia de muestreo
+        # frecuencia_muestreo = samplerate
+
+        # # Imprimir la frecuencia de muestreo
+        # print("Frecuencia de muestreo:", frecuencia_muestreo)
+
+        
+        # musica = pygame.mixer.Sound("Recursos/sonidos/nivel_3.wav")
+        # musica.set_volume(0.1)
+        # musica.play()
 
     def update(self, lista_eventos, bandera_sonidos):
         bandera_tiempo = False
@@ -62,25 +90,35 @@ class Nivel:
         self.leer_inputs(retorno)
         self.dibujar_rectangulos()
         self.actualizar_vida(self._slave)
+        self.mostrar_puntaje(self._slave)
         if self.voldemort != None:
             self.actualizar_vida_voldemort(self._slave)
         self.recibir_bandera_sonidos(bandera_sonidos)
-        bandera_fin = self.verificar_fin()
-        bandera_tiempo = self.temporizar()
-        retorno = False
-        # if bandera_tiempo == True:
-        #     form_jugar = FormMenuLevels(screen=self._slave, 
-        #     x = self._slave.get_width() / 2 -250, y = self._slave.get_height() / 2 - 250,
-        #     w=500,h=500,color_background = (220,0,220), color_border=(255,255,255),active=True,path_image="Recursos/modelo/fondo_tabla.jpg")
-        #     form_jugar.update(lista_eventos, retorno)
-# ARREGLARLO           self.end_dialog()
+        self.verificar_fin()
+        self.temporizar()
 
-        return retorno
+        
+        self.definir_contexto()
+
+        retorno_fin = self.contexto.estado
+
+        return retorno_fin
+
+    def definir_contexto(self):
+        self.contexto = Context(self.nivel, self.puntaje, self.estado)
+        if self.bandera_fin:
+            self.contexto.nivel = self.nivel
+            self.contexto.estado = "Completado"
+            self.contexto.puntaje = self.jugador.puntaje
+        elif self.termino_tiempo or self.jugador.vida == 0:
+            self.contexto.nivel = self.nivel
+            self.contexto.estado = "Incompleto"
+
 
     def verificar_fin(self):
         if self.fruta.rectangulo == None and len(self.lista_enemigos) == 0:
             self.bandera_fin = True
-        return self.bandera_fin
+
 
 
     def recibir_bandera_sonidos(self, bandera):
@@ -100,6 +138,11 @@ class Nivel:
         for plataforma in self.plataformas:
             self._slave.blit(plataforma.superficie, (plataforma.rectangulo.x, plataforma.rectangulo.y))
 
+
+        for trampa in self.lista_trampas:
+            self._slave.blit(trampa.superficie, (trampa.rectangulo.x, trampa.rectangulo.y))
+            trampa.verificar_colision(self.jugador)
+
         if self.fruta.rectangulo != None:
             if self.fruta.velocidad != 0:
                 self.fruta.mover_secundario(self._slave, fenix_volando, fenix_volando_izquierda)
@@ -116,7 +159,6 @@ class Nivel:
             if enemigo.rectangulo != None:
                 enemigo.mover_enemigo(self._slave,
                 self.lista_enemigos, self.plataformas)
-        else:
             bandera_sonido_hechizo = True
             
         if len(self.lista_hechizos) > 0:
@@ -127,8 +169,10 @@ class Nivel:
             bandera_sonido_hechizo = True
         retorno = self.jugador.mover_personaje(self._slave, self.plataformas)
 
+        
 
         if self.voldemort != None and self.bandera_muerte == False:
+            # print(self.voldemort.bandera_sonido)
             self.voldemort.atacar(self._slave, voldemort_izquierda, self.jugador)
             # self.voldemort.verificar_colision_hechizo_harry(self.lista_hechizos)
             if len(self.voldemort.lista_hechizos_voldemort) > 0:
@@ -185,6 +229,8 @@ class Nivel:
         if get_mode():
             for plataforma in self.plataformas:
                 dibujar_cuadrados(self._slave, plataforma.lados, "Green")
+            for trampa in self.lista_trampas:
+                dibujar_cuadrados(self._slave, trampa.lados, "Red")
             dibujar_cuadrados(self._slave, self.jugador.lados, "Black")
             dibujar_cuadrados(self._slave, self.fruta.lados, "Green")
             for hechizo in self.lista_hechizos:
@@ -210,13 +256,16 @@ class Nivel:
             pass
             #PANTALLA DE VICTORIA
 
+    def mostrar_puntaje(self, pantalla):
+        fuente_score = pygame.font.SysFont("Harry P", 50)
+        self.puntaje = fuente_score.render("SCORE: {0}" .format(self.jugador.puntaje), True, (255, 0, 0))
+        pantalla.blit(self.puntaje, (0,0))
+
+
     def actualizar_vida(self, PANTALLA):
         pygame.font.init()
         x =1100
         y = 635
-        fuente_score = pygame.font.SysFont("Harry P", 50)
-        puntaje = fuente_score.render("SCORE: {0}" .format(self.jugador.puntaje), True, (255, 0, 0))
-        PANTALLA.blit(puntaje, (0,0))
         
         self.jugador.verificar_colision_enemigo(PANTALLA, self.lista_enemigos)
         
@@ -234,13 +283,11 @@ class Nivel:
                 PANTALLA.blit(barra_vida[4], (x,y))
             case 0:
                 PANTALLA.blit(barra_vida[5], (x,y))
-                pygame.quit()
-                sys.exit(0)
                 #tendria que ir a una pantalla de menu
 
     def temporizar(self):
         global  temporizador_tick
-        termino = False
+        self.termino_tiempo = False
         #ARREGLAR TIEMPO DESPUES QUE TERMINE
         
         pygame.font.init()
@@ -251,7 +298,7 @@ class Nivel:
         if tiempo_transcurrido >= temporizador_tick:
             self.tiempo_restante -= 1
             if self.tiempo_restante <= 0:
-                termino = True
+                self.termino_tiempo = True
                 self.tiempo_restante = 0
             self.temporizador_tiempo_anterior = tiempo_actual
 
@@ -262,6 +309,5 @@ class Nivel:
 
         self._slave.blit(temporizador, (1187,1))
 
-        return termino
     
     

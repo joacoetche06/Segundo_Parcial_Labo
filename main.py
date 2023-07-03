@@ -9,15 +9,16 @@ import pygame, sys, time, random
 # from Clase_Secundario import *
 
 from GUI_form_principal import *
+from API_FORMS.GUI_form_menu_fin import *
 
 
 # from niveles.nivel import Nivel
 
-
 #PANTALLA
 W, H = 1300, 700
 FPS = 18
-
+# nombre = input("Ingrese su nombre: ")
+# if nombre != "":
 pygame.init()
 RELOJ = pygame.time.Clock()
 
@@ -28,10 +29,9 @@ fondo_pantalla_carga = pygame.transform.scale(fondo_pantalla_carga, (W,H))
 
 #FORM PRUEBA
 
+nombre = "joa"
 
-
-form_prueba = FormPrincipal(PANTALLA, 400, 70, 500, 550, "dimgrey", "black", 5, True, puntaje=0)
-
+form_prueba = FormPrincipal(PANTALLA, 400, 115, 500, 430, "dimgrey", "black", 5, True, nombre, puntaje=0, sonido = "Recursos/sonidos/harry_potter_theme.mp3")
 
 
 while True:
@@ -41,8 +41,9 @@ while True:
         if evento.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0)
+
     PANTALLA.blit(fondo_pantalla_carga, (0,0))   
-    bandera_efectos = form_prueba.update(eventos)
     
+    form_prueba.update(eventos)
 
     pygame.display.flip()

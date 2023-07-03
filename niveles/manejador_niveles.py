@@ -11,3 +11,4 @@ class Manejador_niveles:
                         }
     def get_nivel(self, nombre_nivel):
         return self.niveles[nombre_nivel](self._slave)
+    

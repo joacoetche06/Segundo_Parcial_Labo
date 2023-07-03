@@ -24,6 +24,9 @@ piso_nivel_tres = pygame.transform.scale(piso_nivel_tres,(50,50))
 
 pared_nivel_uno = pygame.image.load("Recursos/terreno/1.png")
 
+trampa_nivel_uno = pygame.image.load("Recursos/items/spike.png")
+trampa_nivel_uno = pygame.transform.scale(trampa_nivel_uno,(48,21))
+
 personaje_quieto = [
     pygame.image.load("Recursos/fotos/quieto/2.png"),
     pygame.image.load("Recursos/fotos/quieto/2.png"),
