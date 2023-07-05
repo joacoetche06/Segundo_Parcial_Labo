@@ -48,7 +48,7 @@ class NivelDos(Nivel):
         #SUPERFICIE
         plataforma_uno = Plataformas("Recursos/items/MergedImages.png", (150,32), 350, 350)
         plataforma_dos = Plataformas("Recursos/items/MergedImages.png", (150,32), 650, 450)
-        plataforma_tres = Plataformas("Recursos/items/MergedImages.png", (150,32), 700, 250)
+        plataforma_tres = Plataformas("Recursos/items/MergedImages.png", (150,32), 600, 250)
 
         superficie_piso_principal = dibujar_estructuras(W, piso_nivel_dos)
         superficie_piso_uno = dibujar_estructuras(W - 900, piso_nivel_dos)
@@ -99,17 +99,17 @@ class NivelDos(Nivel):
 
         lista_animaciones_araña = [araña_derecha, araña_izquierda, araña_herida]
 
-        reescalar_imagen(lista_animaciones_araña, 35, 30)
+        reescalar_imagen(lista_animaciones_araña, 32, 20)
 
-        araña_uno = Enemigo(x_piso_dos, y_piso_dos - 5, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
-        araña_dos = Enemigo(x_piso_uno + 50, y_piso_uno - 5, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
-        araña_tres = Enemigo(x_piso_tres + 50, y_piso_tres - 5, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
-        araña_cuatro = Enemigo(W-50, y_piso_principal - 30, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
+        araña_uno = Enemigo(x_piso_dos, piso_dos.rectangulo.top - 27, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
+        araña_dos = Enemigo(x_piso_uno + 50, piso_uno.rectangulo.top - 27, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
+        araña_tres = Enemigo(x_piso_tres + 50, piso_tres.rectangulo.top - 27, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
+        araña_cuatro = Enemigo(W-50, piso_principal.rectangulo.top - 25, araña_derecha[0], "Recursos/sonidos/araña.wav", velocidad_araña, araña_derecha, araña_izquierda, araña_herida)
 
         
         lista_enemigos = []
 
-        # lista_enemigos.append(araña_uno)
+        lista_enemigos.append(araña_uno)
         lista_enemigos.append(araña_dos)
         lista_enemigos.append(araña_tres)
         lista_enemigos.append(araña_cuatro)
@@ -125,4 +125,4 @@ class NivelDos(Nivel):
         pared_tres = Plataformas("Recursos/terreno/tree.png", (45,94), piso_tres.rectangulo.x - 10, piso_tres.rectangulo.y - 94)
         lista_plataformas.append(pared_tres)
 
-        super().__init__(pantalla, harry, lista_plataformas, fondo, snitch, lista_enemigos, 60, lista_pinchos, "dos")
+        super().__init__(pantalla, harry, lista_plataformas, fondo, snitch, lista_enemigos, 60, lista_pinchos, "dos", "Recursos/sonidos/nivel_2.wav")

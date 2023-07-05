@@ -18,8 +18,8 @@ class FormContenedorNiveles(Form):
         self.lista_widgets.append(self._btn_home)
         
     
-    def update(self, lista_eventos,bandera_sonidos):
-        retorno = self.nivel.update(lista_eventos, bandera_sonidos)
+    def update(self, lista_eventos):
+        retorno = self.nivel.update(lista_eventos)
         for widget in self.lista_widgets:
             widget.update(lista_eventos)
         if retorno == "Completado":
@@ -32,7 +32,9 @@ class FormContenedorNiveles(Form):
     def salir_nivel(self, estado):
         form_menu_fin = MenuFinNivel(self._master, 450, 25, 400, 200, (220,0,220), "White", True, "Recursos/fotos/menu.jpg", estado, self.nivel)
         self.show_dialog(form_menu_fin)
+        pygame.mixer.music.unpause()
         self.end_dialog()
         
     def btn_home_click(self, param):
+        pygame.mixer.music.unpause()
         self.end_dialog()

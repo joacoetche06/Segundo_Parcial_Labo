@@ -133,6 +133,6 @@ class NivelUno(Nivel):
         pared_tres = Plataformas("Recursos/terreno/1.png", (28,92), piso_tres.rectangulo.x - 28, piso_tres.rectangulo.y - 42)
         lista_plataformas.append(pared_tres)
 
-        super().__init__(pantalla, harry, lista_plataformas, fondo, fenix, lista_enemigos, 60, lista_pinchos, "Uno")
+        super().__init__(pantalla, harry, lista_plataformas, fondo, fenix, lista_enemigos, 60, lista_pinchos, "Uno", "Recursos/sonidos/nivel_1.wav")
 
     

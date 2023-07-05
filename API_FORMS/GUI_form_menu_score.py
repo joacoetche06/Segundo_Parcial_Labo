@@ -50,7 +50,7 @@ class FormMenuScore(Form):
     def btn_home_click(self, param):
             self.end_dialog()
     
-    def update(self, lista_eventos, laal):
+    def update(self, lista_eventos):
         if self.active:
             for widget in self.lista_widgets:
                 widget.update(lista_eventos)

@@ -36,7 +36,7 @@ temporizador_tick = 1000  # Actualización cada segundo (en milisegundos)
 
 #10 minutos del video
 class Nivel:
-    def __init__(self, pantalla, personaje, lista_plataformas, fondo, fruta, lista_enemigos, tiempo_total, lista_trampas,numero_nivel,voldemort = None):
+    def __init__(self, pantalla, personaje, lista_plataformas, fondo, fruta, lista_enemigos, tiempo_total, lista_trampas,numero_nivel,sonido,voldemort = None):
         self._slave = pantalla
         self.jugador = personaje
         self.plataformas = lista_plataformas
@@ -55,31 +55,18 @@ class Nivel:
         self.puntaje = 0
         self.nivel = numero_nivel
         self.estado = "En curso"
+        self.sonido = sonido
 
 
         
         
         import soundfile as sf
-
-        # # Ruta al archivo de sonido
-        # ruta_archivo = "Recursos/sonidos/nivel_1.wav"
-
-        # # Leer la información del archivo de sonido
-        # data, samplerate = sf.read(ruta_archivo)
-
-        # # Obtener la frecuencia de muestreo
-        # frecuencia_muestreo = samplerate
-
-        # # Imprimir la frecuencia de muestreo
-        # print("Frecuencia de muestreo:", frecuencia_muestreo)
-
-        
-        # musica = pygame.mixer.Sound("Recursos/sonidos/nivel_3.wav")
+        #MOSTRAR
+        # musica = pygame.mixer.Sound(self.sonido)
         # musica.set_volume(0.1)
         # musica.play()
 
-    def update(self, lista_eventos, bandera_sonidos):
-        bandera_tiempo = False
+    def update(self, lista_eventos):
         for evento in lista_eventos:
             if evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_TAB:
@@ -91,18 +78,21 @@ class Nivel:
         self.dibujar_rectangulos()
         self.actualizar_vida(self._slave)
         self.mostrar_puntaje(self._slave)
+        self.temporizar()
+        self.definir_contexto()
+        # self.recibir_bandera_sonidos(bandera_sonidos)
         if self.voldemort != None:
             self.actualizar_vida_voldemort(self._slave)
-        self.recibir_bandera_sonidos(bandera_sonidos)
-        self.verificar_fin()
-        self.temporizar()
-
+            self.verificar_fin_nivel_3()
+        else:
+            self.verificar_fin()
         
-        self.definir_contexto()
 
         retorno_fin = self.contexto.estado
 
         return retorno_fin
+
+
 
     def definir_contexto(self):
         self.contexto = Context(self.nivel, self.puntaje, self.estado)
@@ -119,7 +109,9 @@ class Nivel:
         if self.fruta.rectangulo == None and len(self.lista_enemigos) == 0:
             self.bandera_fin = True
 
-
+    def verificar_fin_nivel_3(self):
+        if self.fruta.rectangulo == None and len(self.lista_enemigos) == 0 and self.voldemort.vida == 0:
+            self.bandera_fin = True
 
     def recibir_bandera_sonidos(self, bandera):
         if bandera:

@@ -15,8 +15,8 @@ class FormSettings(Form):
         self.on  = pygame.transform.scale(on ,(60,60))
         off = pygame.image.load("Recursos/items/music_off.png")
         self.off  = pygame.transform.scale(off ,(60,60))
-        self.bandera_musica = bandera_musica
-        self.bandera_sonido = bandera_sonido
+        self.bandera_musica = True
+        self.bandera_sonido = True
         self.volumen = volume
 
         self._btn_home = Button_Image(screen=self._slave, x=w-70, y = h-70, master_x=x, master_y=y,w =50,h=50,color_background=(255,0,0), color_border=(255,0,255),onclick=self.btn_home_click,onclick_param="",text="",font="Verdana", font_size =15, font_color=(0,255,0),path_image="API_FORMS/home.png")
@@ -44,7 +44,7 @@ class FormSettings(Form):
 
         self.end_dialog()
     
-    def update(self, lista_eventos, lala):
+    def update(self, lista_eventos):
         if self.active:
             for widget in self.lista_widgets:
                 widget.update(lista_eventos)
@@ -53,12 +53,11 @@ class FormSettings(Form):
             self.update_volumen(lista_eventos)
 
     def btn_music_click(self, lista):
+        print(self.bandera_musica)
         if self.bandera_musica:
-            print(self.btn_music._slave)
             pygame.mixer.music.pause()
             self.btn_music._slave = self.off
         else:
-            print(self.btn_music._slave)
             pygame.mixer.music.unpause()
             self.btn_music._slave = self.on
 

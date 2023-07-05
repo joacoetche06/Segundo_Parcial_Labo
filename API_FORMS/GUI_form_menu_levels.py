@@ -40,13 +40,13 @@ class FormMenuLevels(Form):
     def on(self, parametro):
         print("hola", parametro)
 
-    def update(self, lista_eventos, bandera_sonidos):
+    def update(self, lista_eventos):
         if self.verificar_dialog_result():
             for widget in self.lista_widgets:
                 widget.update(lista_eventos)
                 self.draw()
         else:
-            retorno = self.hijo.update(lista_eventos, bandera_sonidos)
+            retorno = self.hijo.update(lista_eventos)
             if retorno == True:
                 form_contenedor_nivel = FormContenedorNiveles(self._master, self.nivel)
                 self.show_dialog(form_contenedor_nivel)

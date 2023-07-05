@@ -129,4 +129,4 @@ class NivelTres(Nivel):
 
         voldemort = Voldemort(W - 100, piso_tres.rectangulo.y - 110, voldemort_quieto[0], "Recursos/sonidos/avadakadavra.OGG", 15)
 
-        super().__init__(pantalla, harry, lista_plataformas, fondo, piedra_resurrecion, lista_enemigos, 60, lista_pinchos, "tres",voldemort)
+        super().__init__(pantalla, harry, lista_plataformas, fondo, piedra_resurrecion, lista_enemigos, 60, lista_pinchos, "tres","Recursos/sonidos/nivel_3.wav",voldemort)

@@ -68,7 +68,7 @@ class FormPrincipal(Form):
                     widget.update(lista_eventos)
                 
         else:
-            self.hijo.update(lista_eventos, bandera)
+            self.hijo.update(lista_eventos)
 
     
     def render(self):

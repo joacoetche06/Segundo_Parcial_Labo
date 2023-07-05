@@ -46,7 +46,7 @@ class FormInicio(Form):
         self._btn_home = Button_Image(screen=self._slave, x=w-55, y = h-55, master_x=x, master_y=y,w =35,h=35,color_background=(255,0,0), color_border=(255,0,255),onclick=self.btn_home_click,onclick_param="",text="",font="Verdana", font_size =15, font_color=(0,255,0),path_image="API_FORMS/home.png")
         self.lista_widgets.append(self._btn_home)
 
-    def update(self, lista_eventos, bandera):
+    def update(self, lista_eventos):
         if self.active:
             for widget in self.lista_widgets:
                 widget.update(lista_eventos)
@@ -55,7 +55,7 @@ class FormInicio(Form):
     
     def btn_play_click(self, texto):
         self.bandera = True
-        pygame.mixer.music.stop()
+        pygame.mixer.music.pause()
 
     def btn_home_click(self, param):
         self.end_dialog()
